@@ -6,7 +6,13 @@
 /*   By: jihyukim <jihyukim@student.42.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/24 14:10:24 by jihyukim          #+#    #+#             */
-/*   Updated: 2022/01/24 14:11:04 by jihyukim         ###   ########.fr       */
+/*   Updated: 2022/01/25 17:58:27 by jihyukim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "get_next_line.h"
+
+char	*get_next_line(int fd)
+{
+
+}
