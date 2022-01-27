@@ -6,7 +6,7 @@
 /*   By: jihyukim <jihyukim@student.42.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/24 14:10:48 by jihyukim          #+#    #+#             */
-/*   Updated: 2022/01/24 18:10:42 by jihyukim         ###   ########.fr       */
+/*   Updated: 2022/01/27 13:07:46 by jihyukim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,5 +17,6 @@
 # include <unistd.h>
 
 char	*get_next_line(int fd);
+size_t	ft_strlen(const char *s);
 
 #endif
