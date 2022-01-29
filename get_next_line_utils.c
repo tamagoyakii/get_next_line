@@ -6,7 +6,7 @@
 /*   By: jihyukim <jihyukim@student.42.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/24 14:10:38 by jihyukim          #+#    #+#             */
-/*   Updated: 2022/01/27 17:14:24 by jihyukim         ###   ########.fr       */
+/*   Updated: 2022/01/29 18:01:26 by jihyukim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,74 @@ size_t	ft_strlen(const char *s)
 	return (len);
 }
 
-char	*ft_strchr(const char *s, int c)
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
-	while (*s)
+	size_t	i;
+
+	i = 0;
+	while (*(src + i) && i + 1 < dstsize)
 	{
-		if (*s == (char) c)
-			return ((char *)s);
-		s++;
+		*(dst + i) = *(src + i);
+		i++;
+	}
+	if (dstsize > 0)
+		*(dst + i) = 0;
+	return (ft_strlen(src));
+}
+
+size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
+{
+	size_t	dst_len;
+	size_t	src_len;
+	size_t	i;
+
+	dst_len = ft_strlen(dst);
+	src_len = ft_strlen(src);
+	if (dstsize <= dst_len)
+		return (src_len + dstsize);
+	i = 0;
+	while (dst_len + i + 1 < dstsize && *(src + i))
+	{
+		*(dst + dst_len + i) = *(src + i);
+		i++;
+	}
+	*(dst + dst_len + i) = 0;
+	return (src_len + dst_len);
+}
+
+size_t	ft_strchr(const char *s, int c)
+{
+	size_t	i;
+
+	i = 0;
+	while (*(s + i))
+	{
+		if (*(s + i) == (char) c)
+			return (i);
+		i++;
 	}
 	if (c == 0)
-		return ((char *)s);
+		return (i);
 	return (0);
+}
+
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	size_t	s1_len;
+	size_t	s2_len;
+	char	*ret;
+
+	if (!s1 || !s2)
+		return (0);
+	s1_len = ft_strlen(s1);
+	s2_len = ft_strlen(s2);
+	ret = (char *)malloc(sizeof(char) * (s1_len + s2_len) + 1);
+	if (!ret)
+		return (0);
+	ft_strlcat(ret, s2, s1_len + s2_len + 1);
+	free(s1);
+	free(s2);
+	s1 = 0;
+	s2 = 0;
+	return (ret);
 }
