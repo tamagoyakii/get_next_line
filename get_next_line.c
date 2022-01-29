@@ -6,7 +6,7 @@
 /*   By: jihyukim <jihyukim@student.42.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/24 14:10:24 by jihyukim          #+#    #+#             */
-/*   Updated: 2022/01/29 19:11:38 by jihyukim         ###   ########.fr       */
+/*   Updated: 2022/01/29 19:14:46 by jihyukim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	*get_line(char *full_line)
 {
 	char	*line;
 	size_t	line_len;
-	
+
 	line_len = ft_strchr(full_line, '\n') + 1;
 	line = (char *)malloc(sizeof(char) * (line_len + 1));
 	if (!line)
