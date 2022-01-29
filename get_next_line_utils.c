@@ -6,7 +6,7 @@
 /*   By: jihyukim <jihyukim@student.42.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/24 14:10:38 by jihyukim          #+#    #+#             */
-/*   Updated: 2022/01/29 18:01:26 by jihyukim         ###   ########.fr       */
+/*   Updated: 2022/01/29 19:13:46 by jihyukim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,22 @@ size_t	ft_strlen(const char *s)
 	while (*(s + len))
 		len++;
 	return (len);
+}
+
+size_t	ft_strchr(const char *s, int c)
+{
+	size_t	i;
+
+	i = 0;
+	while (*(s + i))
+	{
+		if (*(s + i) == (char) c)
+			return (i);
+		i++;
+	}
+	if (c == 0)
+		return (i);
+	return (0);
 }
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
@@ -55,22 +71,6 @@ size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 	}
 	*(dst + dst_len + i) = 0;
 	return (src_len + dst_len);
-}
-
-size_t	ft_strchr(const char *s, int c)
-{
-	size_t	i;
-
-	i = 0;
-	while (*(s + i))
-	{
-		if (*(s + i) == (char) c)
-			return (i);
-		i++;
-	}
-	if (c == 0)
-		return (i);
-	return (0);
 }
 
 char	*ft_strjoin(char const *s1, char const *s2)
