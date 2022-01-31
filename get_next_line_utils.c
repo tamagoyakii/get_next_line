@@ -6,7 +6,7 @@
 /*   By: jihyukim <jihyukim@student.42.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/24 14:10:38 by jihyukim          #+#    #+#             */
-/*   Updated: 2022/01/29 19:13:46 by jihyukim         ###   ########.fr       */
+/*   Updated: 2022/01/29 19:23:10 by jihyukim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	if (!ret)
 		return (0);
 	ft_strlcat(ret, s2, s1_len + s2_len + 1);
-	free(s1);
-	free(s2);
+	free((char *)s1);
+	free((char *)s2);
 	s1 = 0;
 	s2 = 0;
 	return (ret);
