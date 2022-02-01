@@ -6,31 +6,12 @@
 /*   By: jihyukim <jihyukim@student.42.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/24 14:10:24 by jihyukim          #+#    #+#             */
-/*   Updated: 2022/01/29 22:09:45 by jihyukim         ###   ########.fr       */
+/*   Updated: 2022/02/01 16:15:13 by jihyukim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdio.h>
-
-// char	**split_line(char *s)
-// {
-// 	char	*ret[2];
-// 	size_t	front;
-// 	size_t	back;
-
-// 	front = ft_strchr(s, '\n') + 1;
-// 	back = ft_strlen(s) - front;
-// 	ret[0] = (char *)malloc(sizeof(char) * (front + 1));
-// 	if (!(ret[0]))
-// 		return (0);
-// 	ft_strlcpy(&ret[0], s, front + 1);
-// 	ret[1] = (char *)malloc(sizeof(char) * (back + 1));
-// 	if (!(ret[1]))
-// 		return (0);
-// 	ft_strlcpy(&ret[1], s + front, back + 1);
-// 	return (ret);
-// }
 
 char	*get_full_line(int fd, char *full_line)
 {
