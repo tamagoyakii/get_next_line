@@ -6,7 +6,7 @@
 /*   By: jihyukim <jihyukim@student.42.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/24 14:10:38 by jihyukim          #+#    #+#             */
-/*   Updated: 2022/02/03 19:00:11 by jihyukim         ###   ########.fr       */
+/*   Updated: 2022/02/04 22:01:40 by jihyukim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,4 +93,3 @@ char	*ft_strjoin(const char *s1, const char *s2)
 	s2 = 0;
 	return (ret);
 }
-
