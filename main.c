@@ -53,7 +53,8 @@ size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 	src_len = ft_strlen(src);
 	if (dstsize <= dst_len)
 		return (src_len + dstsize);
-	i = 0;
+	while (!*(dst + i))
+		i++;
 	while (dst_len + i + 1 < dstsize && *(src + i))
 	{
 		*(dst + dst_len + i) = *(src + i);
@@ -94,7 +95,7 @@ char	*ft_strjoin(const char *s1, const char *s2)
 	ret = (char *)malloc(sizeof(char) * (s1_len + s2_len) + 1);
 	if (!ret)
 		return (0);
-	ft_strlcat(ret, s1, s1_len + 1);
+	ft_strlcpy(ret, s1, s1_len + 1);
 	ft_strlcat(ret, s2, s1_len + s2_len + 1);
 	free((char *)s1);
 	free((char *)s2);
@@ -118,13 +119,13 @@ int main()
 	}
 	char *b;
 	b = malloc(7);
-	i = 0;
+	i = 48;
 	while (i < 7)
 	{
-		b[i] = i + 48;
+		b[i] = i;
 		i++;
 	}
-	printf("%s", a);
+	// printf("%s", a);
 	char *c = ft_strjoin(a, b);
 	printf("%s", c);
 	return (0);
