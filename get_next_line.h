@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihyukim <jihyukim@student.42.kr>          +#+  +:+       +#+        */
+/*   By: jihyukim <jihyukim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/24 14:10:48 by jihyukim          #+#    #+#             */
-/*   Updated: 2022/02/06 22:28:03 by jihyukim         ###   ########.fr       */
+/*   Updated: 2022/03/26 15:47:26 by jihyukim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include <stdlib.h>
 # include <unistd.h>
+
+BUFFER_SIZE = 42;
 
 size_t	ft_strlen(const char *s);
 size_t	ft_strchr(const char *s, int c);
