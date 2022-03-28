@@ -1,6 +1,9 @@
 #include <fcntl.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <unistd.h>
+
+static int BUFFER_SIZE = 42;
 
 size_t	ft_strlen(const char *s)
 {
@@ -53,8 +56,7 @@ size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 	src_len = ft_strlen(src);
 	if (dstsize <= dst_len)
 		return (src_len + dstsize);
-	while (!*(dst + i))
-		i++;
+	i = 0;
 	while (dst_len + i + 1 < dstsize && *(src + i))
 	{
 		*(dst + dst_len + i) = *(src + i);
@@ -64,7 +66,30 @@ size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 	return (src_len + dst_len);
 }
 
-// char	*get_next_line(int fd, int BUFFER_SIZE)
+// char	*get_full_line(int fd, char *full_line)
+// {
+// 	char	*buf;
+// 	int		bytes_read;
+
+// 	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
+// 	if (!buf)
+// 		return (0);
+// 	bytes_read = 1;
+// 	while (!(ft_strchr(full_line, '\n')))
+// 	{
+// 		bytes_read = read(fd, buf, BUFFER_SIZE);
+// 		if (bytes_read <= 0)
+// 		{
+// 			free(buf);
+// 			return (0);
+// 		}
+// 		full_line = ft_strjoin(full_line, buf);
+// 	}
+// 	free(buf);
+// 	return (full_line);
+// }	
+
+// char	*get_next_line(int fd)
 // {
 // 	char		*full_line;
 // 	char		*line;
@@ -96,7 +121,7 @@ char	*ft_strjoin(const char *s1, const char *s2)
 	if (!ret)
 		return (0);
 	ft_strlcpy(ret, s1, s1_len + 1);
-	ft_strlcat(ret, s2, s1_len + s2_len + 1);
+	ft_strlcat(ret + s1_len, s2, s1_len + s2_len + 1);
 	free((char *)s1);
 	free((char *)s2);
 	s1 = 0;
@@ -106,8 +131,16 @@ char	*ft_strjoin(const char *s1, const char *s2)
 
 int main()
 {
-	// int fd = open("get_next_line_utils.c", O_RDWR);
-	// get_next_line(fd, 42);
+	int fd = open("ganadara.txt", O_RDWR);
+	// get_next_line(fd);
+	printf("%d\n", fd);
+
+	char	*buf;
+	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!buf)
+		return (0);
+	read(fd, buf, BUFFER_SIZE);
+	printf("%s", buf);
 
 	char *a;
 	a = malloc(7);
@@ -119,10 +152,11 @@ int main()
 	}
 	char *b;
 	b = malloc(7);
-	i = 48;
+	i = 0;
+	int j = 'a';
 	while (i < 7)
 	{
-		b[i] = i;
+		b[i] = j++;
 		i++;
 	}
 	// printf("%s", a);

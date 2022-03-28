@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihyukim <jihyukim@student.42.kr>          +#+  +:+       +#+        */
+/*   By: jihyukim <jihyukim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/24 14:10:38 by jihyukim          #+#    #+#             */
-/*   Updated: 2022/02/04 22:01:40 by jihyukim         ###   ########.fr       */
+/*   Updated: 2022/03/28 15:42:47 by jihyukim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,8 @@ char	*ft_strjoin(const char *s1, const char *s2)
 	ret = (char *)malloc(sizeof(char) * (s1_len + s2_len) + 1);
 	if (!ret)
 		return (0);
-	ft_strlcat(ret, s2, s1_len + s2_len + 1);
+	ft_strlcpy(ret, s1, s1_len + 1);
+	ft_strlcat(ret + s1_len, s2, s1_len + s2_len + 1);
 	free((char *)s1);
 	free((char *)s2);
 	s1 = 0;
