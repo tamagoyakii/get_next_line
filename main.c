@@ -124,7 +124,7 @@ char	*get_full_line(int fd, char *full_line)
 	while (!(ft_strchr(full_line, '\n')))
 	{
 		bytes_read = read(fd, buf, BUFFER_SIZE);
-		if (bytes_read <= 0)
+		if (bytes_read == -1)
 		{
 			free(buf);
 			return (0);
@@ -137,37 +137,37 @@ char	*get_full_line(int fd, char *full_line)
 
 char	*get_next_line(int fd)
 {
-	char		*full_line;
 	char		*line;
-	static char	*backup;
+	static char	buf[101];
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (0);
-	full_line = get_full_line(fd, full_line);
-	if (!full_line)
+	line = get_full_line(fd, line);
+	if (!line)
 		return (0);
-	line = get_line(full_line);
+	line = get_line(line);
 	// backup = get_backup(full_line);
 	// free(full_line);
 	// full_line = 0;
 	return (line);
 }
 
-
-
 int main()
 {
-	int fd = open("ganadara.txt", O_RDWR);
-	printf("%d\n", fd);
+	int fd = open("ganadara.txt", O_RDONLY);
+	char	*line;
+	int i = 1;
+	
+	while (i < 7)
+	{
+		line = get_next_line(fd);
+		printf("line [%d]: %s", i, line);
+		free(line);
+		i++;
+	}
+	close(fd);
 
-	// char	*buf;
-	// buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	// if (!buf)
-	// 	return (0);
-	// read(fd, buf, BUFFER_SIZE);
-	// printf("%s\n", buf);
-
-	printf("%s\n", get_next_line(fd));
+	return (0);
 
 	// char *a;
 	// a = malloc(7);

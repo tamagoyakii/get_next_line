@@ -6,7 +6,7 @@
 /*   By: jihyukim <jihyukim@student.42.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/24 14:10:24 by jihyukim          #+#    #+#             */
-/*   Updated: 2022/02/01 16:15:13 by jihyukim         ###   ########.fr       */
+/*   Updated: 2022/03/29 17:54:35 by jihyukim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,43 @@ char	*get_next_line(int fd)
 	free(full_line);
 	full_line = 0;
 	return (line);
+}
+
+int main()
+{
+	int fd = open("ganadara.txt", O_RDONLY);
+	char	*line;
+	int i = 1;
+	
+	while (i < 7)
+	{
+		line = get_next_line(fd);
+		printf("line [%d]: %s", i, line);
+		free(line);
+		i++;
+	}
+	close(fd);
+
+	return (0);
+
+	// char *a;
+	// a = malloc(7);
+	// int i = 0;
+	// while (i < 7)
+	// {
+	// 	a[i] = i + 48;
+	// 	i++;
+	// }
+	// char *b;
+	// b = malloc(7);
+	// i = 0;
+	// int j = 'a';
+	// while (i < 7)
+	// {
+	// 	b[i] = j++;
+	// 	i++;
+	// };
+	// char *c = ft_strjoin(a, b);
+	// printf("%s", c);
+	// return (0);
 }
