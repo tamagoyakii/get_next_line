@@ -94,6 +94,7 @@ char	*get_line(char *backup)
 	int		line_len;
 
 	line_len = ft_strchr(backup, '\n') + 1;
+	printf("%d\n", line_len);
 	line = (char *)malloc(sizeof(char) * (line_len + 1));
 	if (!line)
 		return (0);

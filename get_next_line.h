@@ -6,7 +6,7 @@
 /*   By: jihyukim <jihyukim@student.42.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/24 14:10:48 by jihyukim          #+#    #+#             */
-/*   Updated: 2022/03/29 17:56:13 by jihyukim         ###   ########.fr       */
+/*   Updated: 2022/03/30 18:20:20 by jihyukim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,15 @@
 # define GET_NEXT_LINE_H
 
 # include <stdlib.h>
-# include <fcntl.h>
+# include <unistd.h>
 
-BUFFER_SIZE = 42;
-
+char	*get_next_line(int fd);
+char	*get_until_newline(int fd, char *backup);
+char	*get_line(char *backup);
 size_t	ft_strlen(const char *s);
 size_t	ft_strchr(const char *s, int c);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
-size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
-char	*ft_strjoin(char const *s1, char const *s2);
-char	*get_full_line(int fd, char *full_line);
-char	*get_line(char *full_line);
-char	*get_backup(char *full_line);
-char	*get_next_line(int fd);
+char	*ft_strdup(const char *s1);
+char	*gnl_strjoin(char *line, char *backup);
 
 #endif
