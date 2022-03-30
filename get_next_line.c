@@ -6,12 +6,11 @@
 /*   By: jihyukim <jihyukim@student.42.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/24 14:10:24 by jihyukim          #+#    #+#             */
-/*   Updated: 2022/03/29 17:54:35 by jihyukim         ###   ########.fr       */
+/*   Updated: 2022/03/30 14:30:23 by jihyukim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
 
 char	*get_full_line(int fd, char *full_line)
 {
