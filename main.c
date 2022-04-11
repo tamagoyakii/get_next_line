@@ -13,19 +13,16 @@ size_t	ft_strlen(const char *s)
 	return (len);
 }
 
-size_t	ft_strchr(const char *s, int c)
+size_t	gnl_strchr(const char *s)
 {
 	size_t	i;
 
-	i = 0;
-	while (s[i])
+	i = -1;
+	while (s[++i])
 	{
-		if (s[i] == (char) c)
+		if (s[i] == '\n')
 			return (i);
-		i++;
 	}
-	if (c == 0)
-		return (i);
 	return (0);
 }
 
@@ -33,35 +30,29 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
 	size_t	i;
 
-	i = 0;
-	while (src[i] && i + 1 < dstsize)
-	{
+	i = -1;
+	while (src[++i] && i + 1 < dstsize)
 		dst[i] = src[i];
-		i++;
-	}
 	if (dstsize > 0)
 		dst[i] = 0;
 	return (ft_strlen(src));
 }
 
-char	*ft_strdup(const char *s1)
+char	*ft_strdup(const char *s)
 {
-	char	*dst;
+	char	*ret;
 	int		len;
 	int		i;
 
-	len = ft_strlen(s1);
-	dst = (char *)malloc(sizeof(char) * (len + 1));
-	if (!(dst))
+	len = ft_strlen(s);
+	ret = (char *)malloc(sizeof(char) * (len + 1));
+	if (!(ret))
 		return (0);
-	i = 0;
-	while (*(s1 + i))
-	{
-		*(dst + i) = *(s1 + i);
-		i++;
-	}
-	*(dst + i) = 0;
-	return (dst);
+	i = -1;
+	while (s[++i])
+		ret[i] = s[i];
+	ret[i] = 0;
+	return (ret);
 }
 
 char	*gnl_strjoin(char *line, char *backup)
@@ -72,8 +63,6 @@ char	*gnl_strjoin(char *line, char *backup)
 
 	if (!line && !backup)
 		return (0);
-	if (!line)
-		return (ft_strdup(backup));
 	ret = (char *)malloc(sizeof(char) * (ft_strlen(line) + ft_strlen(backup) + 1));
 	if (!ret)
 		return (0);
@@ -87,56 +76,52 @@ char	*gnl_strjoin(char *line, char *backup)
 	return (ret);
 }
 
-char	*get_line(char *backup)
+char	*get_line(char *line_merged, char *backup)
 {
 	char	*buf;
 	char	*line;
 	int		line_len;
 
-	line_len = ft_strchr(backup, '\n') + 1;
-	printf("%d\n", line_len);
+	line_len = gnl_strchr(line_merged) + 1;
 	line = (char *)malloc(sizeof(char) * (line_len + 1));
 	if (!line)
 		return (0);
-	buf = backup;
+	buf = ft_strdup(line_merged);
+	line_merged = 0;
 	ft_strlcpy(line, buf, line_len + 1);
 	ft_strlcpy(backup, buf + line_len, ft_strlen(buf) - line_len + 1);
+	buf = 0;
+	free(buf);
 	return (line);
 }
 
-char	*get_until_newline(int fd, char *backup)
+void	gnl_bzero(char *backup)
 {
-	char	*line_merged;
-	char	*buf;
-	int		bytes_read;
+	int	index;
 
+	index = -1;
+	while (backup[++index])
+		backup[index] = 0;	
+}
+
+char	*get_until_newline(char *line_merged, char *backup)
+{
+	char	*ret;
+
+	ret = 0;
+	if (gnl_strchr(line_merged))
+		return (line_merged);
+	ret = gnl_strjoin(line_merged, backup);
+	gnl_bzero(backup);
 	line_merged = 0;
-	buf = 0;
-	bytes_read = 1;
-	if (ft_strchr(backup, '\n'))
-		return (get_line(backup));
-	line_merged = gnl_strjoin(line_merged, backup);
-	while (!(ft_strchr(line_merged, '\n')))
-	{
-		bytes_read = read(fd, backup, BUFFER_SIZE);
-		if (bytes_read == -1)
-			return (0);
-		if (ft_strchr(backup, '\n'))
-		{
-			buf = get_line(backup);
-			line_merged = gnl_strjoin(line_merged, buf);
-			free(buf);
-			return (line_merged);
-		}
-		line_merged = gnl_strjoin(line_merged, backup);
-	}
-	return (line_merged);
+	free(line_merged);
+	return (ret);
 }	
 
 char	*get_next_line(int fd)
 {
 	static char	backup[BUFFER_SIZE + 1];
-	char		*line;
+	char		*line_merged;
 	int			bytes_read;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
@@ -144,31 +129,29 @@ char	*get_next_line(int fd)
 	bytes_read = 1;
 	if (backup[0] == 0)
 		bytes_read = read(fd, backup, BUFFER_SIZE);
-	line = 0;
-	if (bytes_read > 0)
+	line_merged = ft_strdup("");
+	while (bytes_read > 0)
 	{
-		line = get_until_newline(fd, backup);
-		if (!line)
-			return (0);
+		line_merged = get_until_newline(line_merged, backup);
+		if (gnl_strchr(line_merged))
+			break;
+		if (backup[0] == 0)
+			bytes_read = read(fd, backup, BUFFER_SIZE);
 	}
-	return (line);
+	if (bytes_read == 0)
+		return (line_merged);
+	return (get_line(line_merged, backup));
 }
 
 int main()
 {
 	int fd = open("ganadara.txt", O_RDONLY);
-	// char	line[151];
 	char *line;
 	int i = 1;
-	
-	// while (fd > 0)
-	// {
-	// 	printf("%zd\n", read(fd, line, 150));
-	// 	line[150] = 0;
-	// 	printf("%s", line);
-	// }
 
-	while (i < 18)
+	printf("1\n");
+	line = 0;
+	while (i < 62)
 	{
 		line = get_next_line(fd);
 		printf("line [%d]: %s\n", i, line);
@@ -176,27 +159,5 @@ int main()
 		i++;
 	}
 	close(fd);
-
 	return (0);
-
-	// char *a;
-	// a = 0;
-	// int i = 0;
-	// while (i < 7)
-	// {
-	// 	a[i] = i + 48;
-	// 	i++;
-	// }
-	// char *b;
-	// b = malloc(7);
-	// i = 0;
-	// int j = 'a';
-	// while (i < 7)
-	// {
-	// 	b[i] = j++;
-	// 	i++;
-	// };
-	// char *c = gnl_strjoin(a, b);
-	// printf("%s", c);
-	// return (0);
 }

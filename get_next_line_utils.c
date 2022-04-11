@@ -6,7 +6,7 @@
 /*   By: jihyukim <jihyukim@student.42.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/24 14:10:38 by jihyukim          #+#    #+#             */
-/*   Updated: 2022/03/30 18:15:22 by jihyukim         ###   ########.fr       */
+/*   Updated: 2022/04/11 18:15:58 by jihyukim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,16 @@ size_t	ft_strlen(const char *s)
 	return (len);
 }
 
-size_t	ft_strchr(const char *s, int c)
+size_t	gnl_strchr(const char *s)
 {
 	size_t	i;
 
-	i = 0;
-	while (s[i])
+	i = -1;
+	while (s[++i])
 	{
-		if (s[i] == (char) c)
+		if (s[i] == '\n')
 			return (i);
-		i++;
 	}
-	if (c == 0)
-		return (i);
 	return (0);
 }
 
@@ -42,35 +39,29 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
 	size_t	i;
 
-	i = 0;
-	while (src[i] && i + 1 < dstsize)
-	{
+	i = -1;
+	while (src[++i] && i + 1 < dstsize)
 		dst[i] = src[i];
-		i++;
-	}
 	if (dstsize > 0)
 		dst[i] = 0;
 	return (ft_strlen(src));
 }
 
-char	*ft_strdup(const char *s1)
+char	*ft_strdup(const char *s)
 {
-	char	*dst;
+	char	*ret;
 	int		len;
 	int		i;
 
-	len = ft_strlen(s1);
-	dst = (char *)malloc(sizeof(char) * (len + 1));
-	if (!(dst))
+	len = ft_strlen(s);
+	ret = (char *)malloc(sizeof(char) * (len + 1));
+	if (!(ret))
 		return (0);
-	i = 0;
-	while (*(s1 + i))
-	{
-		*(dst + i) = *(s1 + i);
-		i++;
-	}
-	*(dst + i) = 0;
-	return (dst);
+	i = -1;
+	while (s[++i])
+		ret[i] = s[i];
+	ret[i] = 0;
+	return (ret);
 }
 
 char	*gnl_strjoin(char *line, char *backup)
@@ -81,10 +72,8 @@ char	*gnl_strjoin(char *line, char *backup)
 
 	if (!line && !backup)
 		return (0);
-	if (!line)
-		return (ft_strdup(backup));
-	ret = (char *)malloc(sizeof(char)
-			* (ft_strlen(line) + ft_strlen(backup) + 1));
+	ret = (char *)malloc(sizeof(char) * (
+				ft_strlen(line) + ft_strlen(backup) + 1));
 	if (!ret)
 		return (0);
 	index = -1;
