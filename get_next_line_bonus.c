@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jihyukim <jihyukim@student.42.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/24 14:10:24 by jihyukim          #+#    #+#             */
-/*   Updated: 2022/04/13 17:08:16 by jihyukim         ###   ########.fr       */
+/*   Created: 2022/04/13 17:00:24 by jihyukim          #+#    #+#             */
+/*   Updated: 2022/04/13 17:09:50 by jihyukim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 void	gnl_bzero(char *backup)
 {
@@ -54,25 +54,25 @@ char	*get_until_newline(char *line_merged, char *backup)
 
 char	*get_next_line(int fd)
 {
-	static char	backup[BUFFER_SIZE + 1];
+	static char	backup[OPEN_MAX][BUFFER_SIZE + 1];
 	char		*line_merged;
 	int			bytes_read;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (0);
 	bytes_read = 1;
-	if (backup[0] == 0)
-		bytes_read = read(fd, backup, BUFFER_SIZE);
+	if (backup[fd][0] == 0)
+		bytes_read = read(fd, backup[fd], BUFFER_SIZE);
 	if (bytes_read <= 0)
 		return (0);
 	line_merged = gnl_strjoin("", "");
 	while (bytes_read > 0)
 	{
-		line_merged = get_until_newline(line_merged, backup);
+		line_merged = get_until_newline(line_merged, backup[fd]);
 		if (gnl_strchr(line_merged))
-			return (get_line(line_merged, backup));
-		if (backup[0] == 0)
-			bytes_read = read(fd, backup, BUFFER_SIZE);
+			return (get_line(line_merged, backup[fd]));
+		if (backup[fd][0] == 0)
+			bytes_read = read(fd, backup[fd], BUFFER_SIZE);
 	}
 	return (line_merged);
 }
