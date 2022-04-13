@@ -6,7 +6,7 @@
 /*   By: jihyukim <jihyukim@student.42.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/24 14:10:38 by jihyukim          #+#    #+#             */
-/*   Updated: 2022/04/13 13:53:39 by jihyukim         ###   ########.fr       */
+/*   Updated: 2022/04/13 15:41:24 by jihyukim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ size_t	gnl_strchr(const char *s)
 	return (0);
 }
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
+size_t	gnl_strlcpy(char *dst, const char *src, size_t dstsize)
 {
 	size_t	i;
 
@@ -45,23 +45,6 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 	if (dstsize > 0)
 		dst[i] = 0;
 	return (ft_strlen(src));
-}
-
-char	*ft_strdup(const char *s)
-{
-	char	*ret;
-	int		len;
-	int		i;
-
-	len = ft_strlen(s);
-	ret = (char *)malloc(sizeof(char) * (len + 1));
-	if (!(ret))
-		return (0);
-	i = -1;
-	while (s[++i])
-		ret[i] = s[i];
-	ret[i] = 0;
-	return (ret);
 }
 
 char	*gnl_strjoin(char *s1, char *s2)

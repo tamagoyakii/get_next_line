@@ -94,7 +94,6 @@ char	*get_line(char *line_merged, char *backup)
 	line = (char *)malloc(sizeof(char) * (line_len + 1));
 	if (!line)
 		return (0);
-	gnl_bzero(backup);
 	ft_strlcpy(line, line_merged, line_len + 1);
 	ft_strlcpy(backup, line_merged + line_len, ft_strlen(line_merged) - line_len + 1);
 	free(line_merged);
@@ -127,35 +126,30 @@ char	*get_next_line(int fd)
 	bytes_read = 1;
 	if (backup[0] == 0)
 		bytes_read = read(fd, backup, BUFFER_SIZE);
-	line_merged = ft_strdup("");
+	if (bytes_read <= 0)
+		return (0);
+	line_merged = gnl_strjoin("", "");
 	while (bytes_read > 0)
 	{
 		line_merged = get_until_newline(line_merged, backup);
 		if (gnl_strchr(line_merged))
-			break;
+			return (get_line(line_merged, backup));
 		if (backup[0] == 0)
 			bytes_read = read(fd, backup, BUFFER_SIZE);
 	}
-	if (bytes_read <= 0)
-	{
-		if (line_merged)
-			return (line_merged);
-		return (0);
-	}
-	return (get_line(line_merged, backup));
+	return (line_merged);
 }
 
 int main()
 {
-	// int fd = open("ganadara.txt", O_RDONLY);
-	int fd = open("empty.txt", O_RDONLY);
+	int fd = open("ganadara.txt", O_RDONLY);
+	// int fd = open("empty.txt", O_RDONLY);
 	char *line;
 	int i = 1;
 
 	line = 0;
-	while (i < 62)
+	while ((line = get_next_line(fd)) > 0)
 	{
-		line = get_next_line(fd);
 		printf("line [%d]: %s", i, line);
 		free(line);
 		i++;

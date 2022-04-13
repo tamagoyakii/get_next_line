@@ -6,7 +6,7 @@
 /*   By: jihyukim <jihyukim@student.42.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/24 14:10:24 by jihyukim          #+#    #+#             */
-/*   Updated: 2022/04/13 14:05:32 by jihyukim         ###   ########.fr       */
+/*   Updated: 2022/04/13 15:41:40 by jihyukim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,8 @@ char	*get_line(char *line_merged, char *backup)
 	line = (char *)malloc(sizeof(char) * (line_len + 1));
 	if (!line)
 		return (0);
-	gnl_bzero(backup);
-	ft_strlcpy(line, line_merged, line_len + 1);
-	ft_strlcpy(backup, line_merged + line_len, ft_strlen(line_merged) - line_len + 1);
+	gnl_strlcpy(line, line_merged, line_len + 1);
+	gnl_strlcpy(backup, line_merged + line_len, ft_strlen(line_merged) - line_len + 1);
 	free(line_merged);
 	line_merged = 0;
 	return (line);
@@ -63,20 +62,16 @@ char	*get_next_line(int fd)
 	bytes_read = 1;
 	if (backup[0] == 0)
 		bytes_read = read(fd, backup, BUFFER_SIZE);
-	line_merged = ft_strdup("");
+	if (bytes_read <= 0)
+		return (0);
+	line_merged = gnl_strjoin("", "");
 	while (bytes_read > 0)
 	{
 		line_merged = get_until_newline(line_merged, backup);
 		if (gnl_strchr(line_merged))
-			break ;
+			return (get_line(line_merged, backup));
 		if (backup[0] == 0)
 			bytes_read = read(fd, backup, BUFFER_SIZE);
 	}
-	if (bytes_read <= 0)
-	{
-		if (line_merged)
-			return (line_merged);
-		return (0);
-	}
-	return (get_line(line_merged, backup));
+	return (line_merged);
 }
