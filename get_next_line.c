@@ -6,7 +6,7 @@
 /*   By: jihyukim <jihyukim@student.42.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/24 14:10:24 by jihyukim          #+#    #+#             */
-/*   Updated: 2022/04/11 18:14:54 by jihyukim         ###   ########.fr       */
+/*   Updated: 2022/04/13 14:05:32 by jihyukim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	gnl_bzero(char *backup)
 
 char	*get_line(char *line_merged, char *backup)
 {
-	char	*buf;
 	char	*line;
 	int		line_len;
 
@@ -31,12 +30,11 @@ char	*get_line(char *line_merged, char *backup)
 	line = (char *)malloc(sizeof(char) * (line_len + 1));
 	if (!line)
 		return (0);
-	buf = ft_strdup(line_merged);
+	gnl_bzero(backup);
+	ft_strlcpy(line, line_merged, line_len + 1);
+	ft_strlcpy(backup, line_merged + line_len, ft_strlen(line_merged) - line_len + 1);
+	free(line_merged);
 	line_merged = 0;
-	ft_strlcpy(line, buf, line_len + 1);
-	ft_strlcpy(backup, buf + line_len, ft_strlen(buf) - line_len + 1);
-	buf = 0;
-	free(buf);
 	return (line);
 }
 
@@ -49,10 +47,10 @@ char	*get_until_newline(char *line_merged, char *backup)
 		return (line_merged);
 	ret = gnl_strjoin(line_merged, backup);
 	gnl_bzero(backup);
-	line_merged = 0;
 	free(line_merged);
+	line_merged = 0;
 	return (ret);
-}	
+}
 
 char	*get_next_line(int fd)
 {
@@ -74,7 +72,11 @@ char	*get_next_line(int fd)
 		if (backup[0] == 0)
 			bytes_read = read(fd, backup, BUFFER_SIZE);
 	}
-	if (bytes_read == 0)
-		return (line_merged);
+	if (bytes_read <= 0)
+	{
+		if (line_merged)
+			return (line_merged);
+		return (0);
+	}
 	return (get_line(line_merged, backup));
 }

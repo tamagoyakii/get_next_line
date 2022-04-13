@@ -55,44 +55,25 @@ char	*ft_strdup(const char *s)
 	return (ret);
 }
 
-char	*gnl_strjoin(char *line, char *backup)
+char	*gnl_strjoin(char *s1, char *s2)
 {
 	char	*ret;
-	int		index;
-	int		backup_index;
+	int		i;
+	int		j;
 
-	if (!line && !backup)
+	if (!s1 && !s2)
 		return (0);
-	ret = (char *)malloc(sizeof(char) * (ft_strlen(line) + ft_strlen(backup) + 1));
+	ret = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (!ret)
 		return (0);
-	index = -1;
-	while(line[++index])
-		ret[index] = line[index];
-	backup_index = -1;
-	while(backup[++backup_index])
-		ret[index++] = backup[backup_index];
-	ret[index] = 0;
+	i = -1;
+	while(s1[++i])
+		ret[i] = s1[i];
+	j = -1;
+	while(s2[++j])
+		ret[i++] = s2[j];
+	ret[i] = 0;
 	return (ret);
-}
-
-char	*get_line(char *line_merged, char *backup)
-{
-	char	*buf;
-	char	*line;
-	int		line_len;
-
-	line_len = gnl_strchr(line_merged) + 1;
-	line = (char *)malloc(sizeof(char) * (line_len + 1));
-	if (!line)
-		return (0);
-	buf = ft_strdup(line_merged);
-	line_merged = 0;
-	ft_strlcpy(line, buf, line_len + 1);
-	ft_strlcpy(backup, buf + line_len, ft_strlen(buf) - line_len + 1);
-	buf = 0;
-	free(buf);
-	return (line);
 }
 
 void	gnl_bzero(char *backup)
@@ -104,6 +85,23 @@ void	gnl_bzero(char *backup)
 		backup[index] = 0;	
 }
 
+char	*get_line(char *line_merged, char *backup)
+{
+	char	*line;
+	int		line_len;
+
+	line_len = gnl_strchr(line_merged) + 1;
+	line = (char *)malloc(sizeof(char) * (line_len + 1));
+	if (!line)
+		return (0);
+	gnl_bzero(backup);
+	ft_strlcpy(line, line_merged, line_len + 1);
+	ft_strlcpy(backup, line_merged + line_len, ft_strlen(line_merged) - line_len + 1);
+	free(line_merged);
+	line_merged = 0;
+	return (line);
+}
+
 char	*get_until_newline(char *line_merged, char *backup)
 {
 	char	*ret;
@@ -113,10 +111,10 @@ char	*get_until_newline(char *line_merged, char *backup)
 		return (line_merged);
 	ret = gnl_strjoin(line_merged, backup);
 	gnl_bzero(backup);
-	line_merged = 0;
 	free(line_merged);
+	line_merged = 0;
 	return (ret);
-}	
+}
 
 char	*get_next_line(int fd)
 {
@@ -138,23 +136,27 @@ char	*get_next_line(int fd)
 		if (backup[0] == 0)
 			bytes_read = read(fd, backup, BUFFER_SIZE);
 	}
-	if (bytes_read == 0)
-		return (line_merged);
+	if (bytes_read <= 0)
+	{
+		if (line_merged)
+			return (line_merged);
+		return (0);
+	}
 	return (get_line(line_merged, backup));
 }
 
 int main()
 {
-	int fd = open("ganadara.txt", O_RDONLY);
+	// int fd = open("ganadara.txt", O_RDONLY);
+	int fd = open("empty.txt", O_RDONLY);
 	char *line;
 	int i = 1;
 
-	printf("1\n");
 	line = 0;
 	while (i < 62)
 	{
 		line = get_next_line(fd);
-		printf("line [%d]: %s\n", i, line);
+		printf("line [%d]: %s", i, line);
 		free(line);
 		i++;
 	}

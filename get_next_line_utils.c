@@ -6,7 +6,7 @@
 /*   By: jihyukim <jihyukim@student.42.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/24 14:10:38 by jihyukim          #+#    #+#             */
-/*   Updated: 2022/04/11 18:15:58 by jihyukim         ###   ########.fr       */
+/*   Updated: 2022/04/13 13:53:39 by jihyukim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,24 +64,24 @@ char	*ft_strdup(const char *s)
 	return (ret);
 }
 
-char	*gnl_strjoin(char *line, char *backup)
+char	*gnl_strjoin(char *s1, char *s2)
 {
 	char	*ret;
-	int		index;
-	int		backup_index;
+	int		i;
+	int		j;
 
-	if (!line && !backup)
+	if (!s1 && !s2)
 		return (0);
 	ret = (char *)malloc(sizeof(char) * (
-				ft_strlen(line) + ft_strlen(backup) + 1));
+				ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (!ret)
 		return (0);
-	index = -1;
-	while (line[++index])
-		ret[index] = line[index];
-	backup_index = -1;
-	while (backup[++backup_index])
-		ret[index++] = backup[backup_index];
-	ret[index] = 0;
+	i = -1;
+	while(s1[++i])
+		ret[i] = s1[i];
+	j = -1;
+	while(s2[++j])
+		ret[i++] = s2[j];
+	ret[i] = 0;
 	return (ret);
 }
