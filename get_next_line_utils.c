@@ -6,7 +6,7 @@
 /*   By: jihyukim <jihyukim@student.42.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/24 14:10:38 by jihyukim          #+#    #+#             */
-/*   Updated: 2022/04/13 15:41:24 by jihyukim         ###   ########.fr       */
+/*   Updated: 2022/04/13 16:51:13 by jihyukim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,29 +22,28 @@ size_t	ft_strlen(const char *s)
 	return (len);
 }
 
-size_t	gnl_strchr(const char *s)
+int	gnl_strchr(const char *s)
 {
-	size_t	i;
+	int	i;
 
 	i = -1;
-	while (s[++i])
+	while (s[++i] != '\0')
 	{
 		if (s[i] == '\n')
-			return (i);
+			return (i + 1);
 	}
 	return (0);
 }
 
-size_t	gnl_strlcpy(char *dst, const char *src, size_t dstsize)
+void	gnl_strlcpy(char *dst, const char *src, int dstsize)
 {
-	size_t	i;
+	int	i;
 
 	i = -1;
 	while (src[++i] && i + 1 < dstsize)
 		dst[i] = src[i];
 	if (dstsize > 0)
 		dst[i] = 0;
-	return (ft_strlen(src));
 }
 
 char	*gnl_strjoin(char *s1, char *s2)

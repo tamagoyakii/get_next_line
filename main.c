@@ -13,46 +13,29 @@ size_t	ft_strlen(const char *s)
 	return (len);
 }
 
-size_t	gnl_strchr(const char *s)
+int	gnl_strchr(const char *s)
 {
-	size_t	i;
+	int	i;
 
-	i = -1;
-	while (s[++i])
+	i = 0;
+	while (s[i] != '\0')
 	{
 		if (s[i] == '\n')
-			return (i);
+			return (i + 1);
+		i++;
 	}
 	return (0);
 }
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
+void	gnl_strlcpy(char *dst, const char *src, int dstsize)
 {
-	size_t	i;
+	int	i;
 
 	i = -1;
 	while (src[++i] && i + 1 < dstsize)
 		dst[i] = src[i];
 	if (dstsize > 0)
 		dst[i] = 0;
-	return (ft_strlen(src));
-}
-
-char	*ft_strdup(const char *s)
-{
-	char	*ret;
-	int		len;
-	int		i;
-
-	len = ft_strlen(s);
-	ret = (char *)malloc(sizeof(char) * (len + 1));
-	if (!(ret))
-		return (0);
-	i = -1;
-	while (s[++i])
-		ret[i] = s[i];
-	ret[i] = 0;
-	return (ret);
 }
 
 char	*gnl_strjoin(char *s1, char *s2)
@@ -90,12 +73,14 @@ char	*get_line(char *line_merged, char *backup)
 	char	*line;
 	int		line_len;
 
-	line_len = gnl_strchr(line_merged) + 1;
+	line_len = gnl_strchr(line_merged);
 	line = (char *)malloc(sizeof(char) * (line_len + 1));
 	if (!line)
 		return (0);
-	ft_strlcpy(line, line_merged, line_len + 1);
-	ft_strlcpy(backup, line_merged + line_len, ft_strlen(line_merged) - line_len + 1);
+	printf("line_merged: %s\n", line_merged);
+	gnl_strlcpy(line, line_merged, line_len + 1);
+	gnl_strlcpy(backup, line_merged + line_len, ft_strlen(line_merged) - line_len + 1);
+	printf("backup: %s\n", backup);
 	free(line_merged);
 	line_merged = 0;
 	return (line);
@@ -142,8 +127,8 @@ char	*get_next_line(int fd)
 
 int main()
 {
-	int fd = open("ganadara.txt", O_RDONLY);
-	// int fd = open("empty.txt", O_RDONLY);
+	// int fd = open("ganadara.txt", O_RDONLY);
+	int fd = open("empty.txt", O_RDONLY);
 	char *line;
 	int i = 1;
 

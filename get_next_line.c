@@ -6,7 +6,7 @@
 /*   By: jihyukim <jihyukim@student.42.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/24 14:10:24 by jihyukim          #+#    #+#             */
-/*   Updated: 2022/04/13 15:41:40 by jihyukim         ###   ########.fr       */
+/*   Updated: 2022/04/13 16:51:25 by jihyukim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*get_line(char *line_merged, char *backup)
 	char	*line;
 	int		line_len;
 
-	line_len = gnl_strchr(line_merged) + 1;
+	line_len = gnl_strchr(line_merged);
 	line = (char *)malloc(sizeof(char) * (line_len + 1));
 	if (!line)
 		return (0);
