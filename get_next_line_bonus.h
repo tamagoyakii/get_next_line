@@ -6,7 +6,7 @@
 /*   By: jihyukim <jihyukim@student.42.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 17:00:27 by jihyukim          #+#    #+#             */
-/*   Updated: 2022/04/13 17:09:10 by jihyukim         ###   ########.fr       */
+/*   Updated: 2022/04/13 17:41:08 by jihyukim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <limits.h>
 
 char	*get_next_line(int fd);
-char	*get_until_newline(char *line_merged, char *backup);
+char	*get_until_newline(char *line_merged, char *buf);
 char	*get_line(char *line_merged, char *backup);
 void	gnl_bzero(char *backup);
 size_t	ft_strlen(const char *s);
