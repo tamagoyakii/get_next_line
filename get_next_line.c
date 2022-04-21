@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihyukim <jihyukim@student.42.kr>          +#+  +:+       +#+        */
+/*   By: jihyukim <jihyukim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/24 14:10:24 by jihyukim          #+#    #+#             */
-/*   Updated: 2022/04/13 17:08:16 by jihyukim         ###   ########.fr       */
+/*   Updated: 2022/04/21 16:57:39 by jihyukim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ char	*get_line(char *line_merged, char *backup)
 	char	*line;
 	int		line_len;
 
+	if (!line_merged)
+		return (0);
 	line_len = gnl_strchr(line_merged);
 	line = (char *)malloc(sizeof(char) * (line_len + 1));
 	if (!line)
@@ -43,6 +45,10 @@ char	*get_until_newline(char *line_merged, char *backup)
 	char	*ret;
 
 	ret = 0;
+	if (!line_merged)
+		line_merged = gnl_strjoin("", "");
+	if (!line_merged)
+		return (0);
 	if (gnl_strchr(line_merged))
 		return (line_merged);
 	ret = gnl_strjoin(line_merged, backup);
@@ -54,7 +60,7 @@ char	*get_until_newline(char *line_merged, char *backup)
 
 char	*get_next_line(int fd)
 {
-	static char	backup[BUFFER_SIZE + 1];
+	static char	backup[BUFFER_SIZE];
 	char		*line_merged;
 	int			bytes_read;
 
@@ -65,10 +71,12 @@ char	*get_next_line(int fd)
 		bytes_read = read(fd, backup, BUFFER_SIZE);
 	if (bytes_read <= 0)
 		return (0);
-	line_merged = gnl_strjoin("", "");
+	line_merged = 0;
 	while (bytes_read > 0)
 	{
 		line_merged = get_until_newline(line_merged, backup);
+		if (!line_merged)
+			return (0);
 		if (gnl_strchr(line_merged))
 			return (get_line(line_merged, backup));
 		if (backup[0] == 0)
