@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihyukim <jihyukim@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jihyukim <jihyukim@student.42.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/24 14:10:38 by jihyukim          #+#    #+#             */
-/*   Updated: 2022/04/21 16:41:44 by jihyukim         ###   ########.fr       */
+/*   Updated: 2022/04/28 17:07:14 by jihyukim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,12 @@ int	gnl_strchr(const char *s)
 {
 	int	i;
 
-	i = -1;
-	while (s[++i] != '\0')
+	i = 0;
+	while (s[i] != '\0')
 	{
 		if (s[i] == '\n')
 			return (i + 1);
+		i++;
 	}
 	return (0);
 }
@@ -39,9 +40,12 @@ void	gnl_strlcpy(char *dst, const char *src, int dstsize)
 {
 	int	i;
 
-	i = -1;
-	while (src[++i] && i + 1 < dstsize)
+	i = 0;
+	while (src[i] && i + 1 < dstsize)
+	{
 		dst[i] = src[i];
+		i++;
+	}
 	if (dstsize > 0)
 		dst[i] = 0;
 }

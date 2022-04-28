@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihyukim <jihyukim@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jihyukim <jihyukim@student.42.kr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/24 14:10:24 by jihyukim          #+#    #+#             */
-/*   Updated: 2022/04/21 16:57:39 by jihyukim         ###   ########.fr       */
+/*   Updated: 2022/04/28 17:06:11 by jihyukim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,11 @@ char	*get_line(char *line_merged, char *backup)
 	line_len = gnl_strchr(line_merged);
 	line = (char *)malloc(sizeof(char) * (line_len + 1));
 	if (!line)
+	{
+		free(line_merged);
+		line_merged = 0;
 		return (0);
+	}
 	gnl_strlcpy(line, line_merged, line_len + 1);
 	gnl_strlcpy(backup, line_merged + line_len,
 		ft_strlen(line_merged) - line_len + 1);
