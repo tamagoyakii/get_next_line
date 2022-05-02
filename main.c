@@ -6,9 +6,10 @@ int main()
 {	
 	int fd = open("ganadara.txt", O_RDONLY);
 	char *line;
-	int i = 1;
+	int i;
 
 	line = 0;
+	i = 1;
 	while ((line = get_next_line(fd)) > 0)
 	{
 		printf("line [%d]: %s", i, line);
