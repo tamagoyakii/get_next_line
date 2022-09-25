@@ -1,4 +1,2 @@
 # get_next_line
-
-__Summary: This project is about programming a function that returns a line
-read from a file descriptor.__
+파일 디스크립터를 참조하여 개행을 포함한 한 줄의 문자열을 반환하는 함수 구현
